@@ -1,0 +1,8 @@
+WORLD 2 FINAL VALIDATION
+
+index_size_bytes: 2275019
+has_pointer_drag: True
+has_touch_action_none: True
+has_repeat_2_to_5: True
+has_save_continue: True
+sha256: e9805033dec43aef0a503882963ad596c462dabfda24a712b99535d2293d597e
