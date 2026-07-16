@@ -1,0 +1,43 @@
+STEP UP CODING STUDIO — WORLD 2 FINAL
+Robot & Space | 20 Episodes | GitHub Pages Ready
+
+ไฟล์ index.html เป็นเกมฉบับสมบูรณ์แบบ Self-contained:
+- รูปแบบงานเดิมที่อนุมัติแล้ว
+- 20 Episodes
+- Coding Area อย่างน้อย 3 บรรทัด
+- ลากด้วยเมาส์และนิ้ว
+- แตะบล็อกเพื่อเพิ่ม
+- ลบคำสั่งทีละบล็อก
+- Undo
+- Repeat 2–5 ครั้ง
+- Save / Continue
+- เส้นทางผ่านได้จริงครบ 20 ด่าน
+- เปิดไฟล์ index.html บน Windows ได้โดยตรง
+
+วิธีทดสอบบน Windows
+1. แตกไฟล์ ZIP
+2. เปิดโฟลเดอร์ STEP_UP_CODING_STUDIO_WORLD2_FINAL_GITHUB_READY
+3. ดับเบิลคลิก index.html
+4. ทดสอบ START, การลาก, RUN, เสียง และการเปลี่ยน Episode
+
+วิธีใส่ GitHub Desktop
+1. เปิดโฟลเดอร์ Repository: stepup-coding-studio-world2-test
+2. ลบเฉพาะไฟล์เกมทดลองเก่าใน Repository (อย่าลบโฟลเดอร์ .git)
+3. คัดลอกไฟล์ทั้งหมดจากโฟลเดอร์ชุดนี้ไปวางใน Repository
+4. กลับไป GitHub Desktop
+5. ใส่ Summary: World 2 Final 20 Episodes
+6. กด Commit to main
+7. กด Publish repository หรือ Push origin
+
+เปิด GitHub Pages
+1. เข้า Repository บนเว็บไซต์ GitHub
+2. Settings > Pages
+3. Source: Deploy from a branch
+4. Branch: main
+5. Folder: /(root)
+6. Save
+7. รอประมาณ 1–5 นาที แล้วเปิดลิงก์ GitHub Pages บน iPad
+
+หมายเหตุสำคัญ
+- ไฟล์เกมเดิมไม่ได้หาย และไม่ได้ต้องมี assets/css/js แยก เพราะ index.html ฝังส่วนประกอบไว้ครบในไฟล์เดียว
+- โฟลเดอร์นี้เพิ่มเฉพาะ .nojekyll และคำแนะนำสำหรับ GitHub โดยไม่เปลี่ยนรูปแบบเกมที่อนุมัติแล้ว
