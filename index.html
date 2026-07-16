@@ -697,6 +697,32 @@ html,body{width:100%;height:100%;overflow:hidden}
 }
 .palette .tip{flex:0 0 auto!important;}
 
+
+/* ===== World 2 v11: iPad-safe command arrows ===== */
+@media (max-width: 1180px) and (orientation: landscape){
+  .palette .cmd, .palette .repeat-cmd{
+    padding:4px 8px!important;
+    column-gap:10px!important;
+    font-size:15px!important;
+  }
+  .palette .cmd .arrow{
+    flex:0 0 34px!important;
+    width:34px!important;
+    height:34px!important;
+  }
+  .palette .cmd .arrow::before{inset:3px!important;}
+  .palette .repeat-cmd .icon{
+    flex:0 0 34px!important;
+    width:34px!important;
+    font-size:24px!important;
+  }
+}
+@media (max-width: 900px) and (orientation: landscape){
+  .palette .cmd, .palette .repeat-cmd{column-gap:8px!important;font-size:14px!important;}
+  .palette .cmd .arrow{flex-basis:30px!important;width:30px!important;height:30px!important;}
+  .palette .repeat-cmd .icon{flex-basis:30px!important;width:30px!important;font-size:21px!important;}
+}
+
 </style>
 </head>
 <body>
@@ -777,188 +803,71 @@ updateHome();renderMap();
 })();
 </script>
 
+<audio id="spaceMusic" src="space_adventure_theme.wav" loop preload="auto" playsinline></audio>
+
 <script>
-/* Step Up Space Adventure Music — upbeat, child-friendly, generated in-browser */
+/* Step Up Space Adventure Music v11 — real bundled audio file for iPad/Safari */
 (function(){
-  let musicCtx=null, musicMaster=null, musicTimer=null, musicOn=true, nextBarTime=0;
-  const BPM=124;
-  const beat=60/BPM;
-  const bar=beat*4;
-  const melody=[
-    659.25,783.99,880.00,783.99,659.25,523.25,587.33,659.25,
-    783.99,880.00,987.77,880.00,783.99,659.25,587.33,659.25
-  ];
-  const bass=[130.81,130.81,174.61,196.00,146.83,146.83,196.00,174.61];
-  let melodyStep=0,bassStep=0;
-
-  function ensureMusic(){
-    if(musicCtx) return;
-    const Ctx=window.AudioContext||window.webkitAudioContext;
-    if(!Ctx) return;
-    musicCtx=new Ctx();
-    musicMaster=musicCtx.createGain();
-    const compressor=musicCtx.createDynamicsCompressor();
-    musicMaster.gain.value=0.42;
-    compressor.threshold.value=-18;
-    compressor.knee.value=16;
-    compressor.ratio.value=5;
-    compressor.attack.value=0.004;
-    compressor.release.value=0.18;
-    musicMaster.connect(compressor).connect(musicCtx.destination);
+  let musicOn=true;
+  let started=false;
+  function audio(){ return document.getElementById('spaceMusic'); }
+  function updateButton(){
+    const btn=document.getElementById('musicBtn');
+    if(!btn) return;
+    const active=musicOn && started && !audio().paused;
+    btn.textContent='🎵';
+    btn.title=active?'ปิดเพลง':'เปิดเพลง';
+    btn.setAttribute('aria-label',btn.title);
+    btn.dataset.music=active?'on':'off';
+    btn.style.opacity=active?'1':'0.58';
   }
-
-  function tone(freq,time,duration,volume=0.08,type='triangle',cutoff=2400){
-    if(!musicCtx||!musicOn) return;
-    const osc=musicCtx.createOscillator();
-    const gain=musicCtx.createGain();
-    const filter=musicCtx.createBiquadFilter();
-    osc.type=type; osc.frequency.setValueAtTime(freq,time);
-    filter.type='lowpass'; filter.frequency.setValueAtTime(cutoff,time);
-    gain.gain.setValueAtTime(0.0001,time);
-    gain.gain.exponentialRampToValueAtTime(volume,time+0.012);
-    gain.gain.exponentialRampToValueAtTime(0.0001,time+duration);
-    osc.connect(filter).connect(gain).connect(musicMaster);
-    osc.start(time); osc.stop(time+duration+0.03);
-  }
-
-  function kick(time){
-    if(!musicCtx||!musicOn) return;
-    const osc=musicCtx.createOscillator(), gain=musicCtx.createGain();
-    osc.type='sine';
-    osc.frequency.setValueAtTime(125,time);
-    osc.frequency.exponentialRampToValueAtTime(48,time+0.11);
-    gain.gain.setValueAtTime(0.22,time);
-    gain.gain.exponentialRampToValueAtTime(0.0001,time+0.14);
-    osc.connect(gain).connect(musicMaster); osc.start(time); osc.stop(time+0.16);
-  }
-
-  function hat(time,volume=0.035){
-    if(!musicCtx||!musicOn) return;
-    const length=Math.floor(musicCtx.sampleRate*0.045);
-    const buffer=musicCtx.createBuffer(1,length,musicCtx.sampleRate);
-    const data=buffer.getChannelData(0);
-    for(let i=0;i<length;i++) data[i]=(Math.random()*2-1)*(1-i/length);
-    const src=musicCtx.createBufferSource(), filter=musicCtx.createBiquadFilter(), gain=musicCtx.createGain();
-    src.buffer=buffer; filter.type='highpass'; filter.frequency.value=6500;
-    gain.gain.setValueAtTime(volume,time); gain.gain.exponentialRampToValueAtTime(0.0001,time+0.045);
-    src.connect(filter).connect(gain).connect(musicMaster); src.start(time);
-  }
-
-  function sparkle(time,freq){
-    tone(freq,time,0.22,0.045,'sine',5000);
-    tone(freq*2,time+0.035,0.15,0.022,'sine',6500);
-  }
-
-  function scheduleBar(at){
-    if(!musicCtx||!musicOn) return;
-    for(let i=0;i<8;i++){
-      const t=at+i*(beat/2);
-      hat(t,i%2?0.025:0.04);
-      if(i%2===0) kick(t);
-      const mf=melody[melodyStep++%melody.length];
-      tone(mf,t,beat*0.38,i%4===0?0.09:0.065,'square',2100);
-      if(i===3||i===7) sparkle(t+beat*0.20,mf*1.5);
+  function startMusic(){
+    const a=audio();
+    if(!a) return Promise.resolve(false);
+    musicOn=true;
+    a.volume=0.72;
+    a.muted=false;
+    const p=a.play(); // must be called directly inside the user's touch/click gesture
+    if(p && typeof p.then==='function'){
+      return p.then(()=>{started=true;updateButton();return true;})
+              .catch(err=>{console.warn('Music play blocked; tap the music button once.',err);updateButton();return false;});
     }
-    const root=bass[bassStep++%bass.length];
-    tone(root,at,beat*0.82,0.11,'sawtooth',720);
-    tone(root,at+beat*2,beat*0.82,0.105,'sawtooth',720);
-    tone(root*2,at,bar*0.94,0.025,'triangle',1000);
+    started=true; updateButton(); return Promise.resolve(true);
   }
-
-  function scheduler(){
-    if(!musicCtx||!musicOn) return;
-    while(nextBarTime < musicCtx.currentTime+0.35){
-      scheduleBar(nextBarTime);
-      nextBarTime+=bar;
-    }
-  }
-
-  async function startMusic(){
-    ensureMusic();
-    if(!musicCtx) return;
-    try{
-      if(musicCtx.state==='suspended') await musicCtx.resume();
-      musicOn=true;
-      musicMaster.gain.cancelScheduledValues(musicCtx.currentTime);
-      musicMaster.gain.setTargetAtTime(0.42,musicCtx.currentTime,0.05);
-      if(!musicTimer){
-        nextBarTime=musicCtx.currentTime+0.06;
-        melodyStep=0; bassStep=0;
-        scheduler();
-        musicTimer=setInterval(scheduler,120);
-      }
-      updateMusicButton();
-    }catch(e){console.warn('Music start failed',e)}
-  }
-
   function stopMusic(){
+    const a=audio();
     musicOn=false;
-    clearInterval(musicTimer); musicTimer=null;
-    if(musicMaster&&musicCtx){
-      musicMaster.gain.cancelScheduledValues(musicCtx.currentTime);
-      musicMaster.gain.setTargetAtTime(0.0001,musicCtx.currentTime,0.08);
-    }
-    updateMusicButton();
+    if(a) a.pause();
+    updateButton();
   }
-
   function toggleMusic(ev){
     if(ev){ev.preventDefault();ev.stopPropagation();}
-    if(musicOn&&musicTimer) stopMusic(); else startMusic();
+    const a=audio();
+    if(!a) return;
+    if(!a.paused && musicOn) stopMusic(); else startMusic();
   }
-
-  function updateMusicButton(){
+  function unlockOnce(){
+    if(!started && musicOn) startMusic();
+  }
+  function init(){
+    const a=audio();
     const btn=document.getElementById('musicBtn');
-    const active=!!(musicOn&&musicTimer);
+    if(a){a.volume=0.72;a.addEventListener('play',()=>{started=true;updateButton();});a.addEventListener('pause',updateButton);}
     if(btn){
-      btn.textContent=active?'🎵':'🎵';
-      btn.title=active?'ปิดเพลง':'เปิดเพลง';
-      btn.setAttribute('aria-label',btn.title);
-      btn.dataset.music=active?'on':'off';
-      btn.style.opacity=active?'1':'0.55';
+      btn.onclick=null;
+      btn.addEventListener('click',toggleMusic,{capture:true});
+      btn.addEventListener('touchend',toggleMusic,{capture:true,passive:false});
     }
-  }
-
-  document.addEventListener('DOMContentLoaded',function(){
-    const btn=document.getElementById('musicBtn');
-    if(btn) btn.addEventListener('click',toggleMusic);
+    const start=document.getElementById('startHotspot');
+    if(start){start.addEventListener('click',unlockOnce,{capture:true});start.addEventListener('touchend',unlockOnce,{capture:true,passive:true});}
+    document.addEventListener('touchend',unlockOnce,{once:true,capture:true,passive:true});
+    document.addEventListener('click',unlockOnce,{once:true,capture:true});
+    document.addEventListener('pointerup',unlockOnce,{once:true,capture:true,passive:true});
     window.startStepUpMusic=startMusic;
     window.stopStepUpMusic=stopMusic;
-    const unlock=()=>startMusic();
-    document.getElementById('startHotspot')?.addEventListener('click',unlock,{once:true});
-    document.addEventListener('pointerdown',unlock,{once:true,capture:true,passive:true});
-    document.addEventListener('touchend',unlock,{once:true,passive:true});
-    document.addEventListener('keydown',unlock,{once:true});
-    updateMusicButton();
-  });
-})();
-</script>
-
-
-<script>
-/* Robust iPad/Safari audio unlock */
-(function(){
-  let unlocked=false;
-  async function unlockAllAudio(){
-    if(unlocked) return;
-    try{
-      const Ctx=window.AudioContext||window.webkitAudioContext;
-      if(Ctx){
-        window.__stepupUnlockCtx=window.__stepupUnlockCtx||new Ctx();
-        if(window.__stepupUnlockCtx.state==='suspended') await window.__stepupUnlockCtx.resume();
-        const o=window.__stepupUnlockCtx.createOscillator();
-        const g=window.__stepupUnlockCtx.createGain();
-        g.gain.value=0.00001;
-        o.connect(g).connect(window.__stepupUnlockCtx.destination);
-        o.start(); o.stop(window.__stepupUnlockCtx.currentTime+0.02);
-      }
-      if(typeof window.startStepUpMusic==='function') await window.startStepUpMusic();
-      unlocked=true;
-    }catch(e){console.warn('Audio unlock retry needed',e)}
+    updateButton();
   }
-  ['touchend','pointerup','click'].forEach(type=>document.addEventListener(type,unlockAllAudio,{once:true,capture:false,passive:true}));
-  document.addEventListener('visibilitychange',()=>{
-    if(document.visibilityState==='visible') unlocked=false;
-  });
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
 })();
 </script>
 
