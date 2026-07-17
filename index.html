@@ -725,7 +725,36 @@ html,body{width:100%;height:100%;overflow:hidden}
 
 </style>
 
-<style id="ipad-home-map-fit-v18">
+<style id="world2-real-home-buttons-v19">
+/* Use real visible HTML buttons, matching World 1 behavior.
+   The original World 2 image remains the background artwork only. */
+.real-home-btn {
+  position: absolute !important;
+  z-index: 100 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  border: 3px solid rgba(255,255,255,.75) !important;
+  border-radius: 18px !important;
+  color: #fff !important;
+  font-weight: 1000 !important;
+  font-size: clamp(14px,2vw,24px) !important;
+  line-height: 1 !important;
+  box-shadow: 0 7px 0 rgba(0,0,0,.28), 0 10px 24px rgba(0,0,0,.35) !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+.real-home-btn:active {
+  transform: translateY(4px) !important;
+  box-shadow: 0 3px 0 rgba(0,0,0,.28), 0 6px 12px rgba(0,0,0,.3) !important;
+}
+.start-real { background: linear-gradient(#49e34e,#0aa927) !important; }
+.settings-real { background: linear-gradient(#269cff,#086bd2) !important; }
+.exit-real { background: linear-gradient(#ff554d,#d91012) !important; }
+
 @media (orientation: landscape) and (max-height: 900px) {
   #homeScreen {
     min-height: 100dvh !important;
@@ -735,7 +764,6 @@ html,body{width:100%;height:100%;overflow:hidden}
     display: grid !important;
     place-items: center !important;
   }
-
   #homeScreen .home-wrap {
     position: relative !important;
     width: min(100vw, calc((100dvh - 6px) * 1.5)) !important;
@@ -745,11 +773,30 @@ html,body{width:100%;height:100%;overflow:hidden}
     aspect-ratio: 3 / 2 !important;
     margin: 0 auto !important;
   }
-
   #homeScreen .home-image {
     width: 100% !important;
     height: 100% !important;
     object-fit: contain !important;
+  }
+
+  /* Cover the artwork buttons exactly with real buttons. */
+  #homeScreen .start-hotspot {
+    left: 21.0% !important;
+    top: 85.2% !important;
+    width: 16.2% !important;
+    height: 10.2% !important;
+  }
+  #homeScreen .settings-hotspot {
+    left: 38.3% !important;
+    top: 85.2% !important;
+    width: 16.8% !important;
+    height: 10.2% !important;
+  }
+  #homeScreen .exit-hotspot {
+    left: 56.0% !important;
+    top: 85.2% !important;
+    width: 14.7% !important;
+    height: 10.2% !important;
   }
 
   #mapScreen {
@@ -758,66 +805,32 @@ html,body{width:100%;height:100%;overflow:hidden}
     padding: 8px 10px !important;
     overflow: hidden !important;
   }
-
-  #mapScreen .map-head {
-    margin-bottom: 5px !important;
-    gap: 8px !important;
-  }
-
-  #mapScreen .map-title h1 {
-    font-size: 22px !important;
-    line-height: 1.05 !important;
-  }
-
-  #mapScreen .map-title p {
-    margin: 2px 0 !important;
-    font-size: 11px !important;
-    line-height: 1.2 !important;
-  }
-
-  #mapScreen .iconbtn {
-    padding: 7px 10px !important;
-    font-size: 12px !important;
-  }
-
+  #mapScreen .map-head { margin-bottom: 5px !important; gap: 8px !important; }
+  #mapScreen .map-title h1 { font-size: 22px !important; line-height: 1.05 !important; }
+  #mapScreen .map-title p { margin: 2px 0 !important; font-size: 11px !important; line-height: 1.2 !important; }
+  #mapScreen .iconbtn { padding: 7px 10px !important; font-size: 12px !important; }
   #mapScreen .galaxy {
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    grid-template-columns: repeat(5,minmax(0,1fr)) !important;
     gap: 7px !important;
     padding: 5px !important;
   }
-
   #mapScreen .episode-node {
     min-height: 0 !important;
-    height: calc((100dvh - 104px) / 4) !important;
+    height: calc((100dvh - 104px)/4) !important;
     padding: 6px !important;
     border-radius: 13px !important;
     gap: 2px !important;
   }
-
-  #mapScreen .episode-node .icon {
-    font-size: 28px !important;
-    line-height: 1 !important;
-  }
-
-  #mapScreen .episode-node b {
-    font-size: 11px !important;
-    line-height: 1.1 !important;
-  }
-
-  #mapScreen .episode-node small {
-    font-size: 9px !important;
-    line-height: 1.1 !important;
-  }
-
-  #mapScreen .progress-card {
-    display: none !important;
-  }
+  #mapScreen .episode-node .icon { font-size: 28px !important; line-height: 1 !important; }
+  #mapScreen .episode-node b { font-size: 11px !important; line-height: 1.1 !important; }
+  #mapScreen .episode-node small { font-size: 9px !important; line-height: 1.1 !important; }
+  #mapScreen .progress-card { display: none !important; }
 }
 </style>
 
 </head>
 <body>
-<section id="homeScreen" class="screen home-screen"><div class="home-wrap"><img class="home-image" src="world2_space_home_landscape.png" alt="World 2 Home"><div id="continueBanner" class="continue-banner hidden" style="display:none!important"></div><button id="startHotspot" class="hotspot start-hotspot"></button><button id="settingsHotspot" class="hotspot settings-hotspot"></button><button id="exitHotspot" class="hotspot exit-hotspot"></button></div></section>
+<section id="homeScreen" class="screen home-screen"><div class="home-wrap"><img class="home-image" src="world2_space_home_landscape.png" alt="World 2 Home"><div id="continueBanner" class="continue-banner hidden" style="display:none!important"></div><button id="startHotspot" class="hotspot start-hotspot real-home-btn start-real" type="button"><span class="play-icon">▶</span><span>START</span></button><button id="settingsHotspot" class="hotspot settings-hotspot real-home-btn settings-real" type="button"><span class="gear-icon">⚙</span><span>SETTINGS</span></button><button id="exitHotspot" class="hotspot exit-hotspot real-home-btn exit-real" type="button"><span class="x-icon">✕</span><span>EXIT</span></button></div></section>
 <section id="mapScreen" class="screen map-screen hidden"><div class="map-head"><div class="map-title"><h1>🌌 GALAXY MAP</h1><p>เล่นตามลำดับทั้ง 20 Episodes เพื่อผ่าน World 2 • ✅ ตรวจเส้นทางครบทุกด่านแล้ว</p></div><div class="map-actions"><button id="resetProgressBtn" class="iconbtn">เริ่มใหม่</button><button id="mapHomeBtn" class="iconbtn">HOME</button></div></div><div id="galaxy" class="galaxy"></div><div class="progress-card card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>World 2 Progress</b><span id="progressText">0/20</span></div><div class="progress-track"><div id="progressFill" class="progress-fill"></div></div></div>
 <div class="progress-card card" style="margin-top:10px">
   <b>✅ QA Route Check</b>
