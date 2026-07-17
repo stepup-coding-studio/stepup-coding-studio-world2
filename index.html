@@ -982,5 +982,49 @@ updateHome();renderMap();
 })();
 </script>
 
+
+<script id="ipad-home-touch-fix-v15">
+(function(){
+  function ready(fn){
+    if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", fn);
+    else fn();
+  }
+  ready(function(){
+    const start = document.getElementById("startHotspot");
+    const settings = document.getElementById("settingsHotspot");
+    const exit = document.getElementById("exitHotspot");
+    const showScreen = function(id){
+      ["homeScreen","mapScreen","gameScreen"].forEach(function(x){
+        const el=document.getElementById(x); if(el) el.classList.add("hidden");
+      });
+      const target=document.getElementById(id); if(target) target.classList.remove("hidden");
+    };
+    function activateStart(e){
+      if(e){ e.preventDefault(); e.stopPropagation(); }
+      try { if(typeof renderMap==="function") renderMap(); } catch(_){}
+      showScreen("mapScreen");
+    }
+    function activateSettings(e){
+      if(e){ e.preventDefault(); e.stopPropagation(); }
+      const panel=document.getElementById("settingsPanel");
+      if(panel) panel.classList.remove("hidden");
+    }
+    if(start){
+      start.style.zIndex="20";
+      start.style.touchAction="manipulation";
+      start.addEventListener("pointerup", activateStart);
+      start.addEventListener("touchend", activateStart, {passive:false});
+    }
+    if(settings){
+      settings.style.zIndex="20";
+      settings.style.touchAction="manipulation";
+      settings.addEventListener("pointerup", activateSettings);
+      settings.addEventListener("touchend", activateSettings, {passive:false});
+    }
+    if(exit){ exit.style.zIndex="20"; exit.style.touchAction="manipulation"; }
+  });
+})();
+</script>
+
 </body>
 </html>
