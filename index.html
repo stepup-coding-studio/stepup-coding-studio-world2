@@ -724,6 +724,23 @@ html,body{width:100%;height:100%;overflow:hidden}
 }
 
 </style>
+
+<style id="ipad-home-fit-v13">
+@media (orientation: landscape) and (max-height: 900px) {
+  #homeScreen, .home-screen, .homeScreen, #home {
+    overflow: hidden !important;
+  }
+  #homeScreen > *, .home-screen > *, .homeScreen > *, #home > * {
+    max-height: 100% !important;
+  }
+  .home-bg, .home-background, #homeBackground {
+    background-size: contain !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <section id="homeScreen" class="screen home-screen"><div class="home-wrap"><img class="home-image" src="world2_space_home_landscape.png" alt="World 2 Home"><div id="continueBanner" class="continue-banner hidden" style="display:none!important"></div><button id="startHotspot" class="hotspot start-hotspot"></button><button id="settingsHotspot" class="hotspot settings-hotspot"></button><button id="exitHotspot" class="hotspot exit-hotspot"></button></div></section>
