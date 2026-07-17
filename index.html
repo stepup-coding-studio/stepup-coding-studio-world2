@@ -741,6 +741,100 @@ html,body{width:100%;height:100%;overflow:hidden}
 }
 </style>
 
+
+<style id="ipad-full-fit-v14">
+/* iPad Safari landscape: fit Home and Galaxy Map inside the visible viewport.
+   Game screen layout is intentionally untouched. */
+@media (orientation: landscape) and (max-height: 900px) {
+  #homeScreen {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  #homeScreen .home-wrap {
+    width: auto !important;
+    height: calc(100dvh - 10px) !important;
+    max-width: 100vw !important;
+    max-height: calc(100dvh - 10px) !important;
+    aspect-ratio: 3 / 2 !important;
+    margin: 0 auto !important;
+  }
+
+  #homeScreen .home-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+  }
+
+  #mapScreen {
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    padding: 8px 10px !important;
+    overflow: hidden !important;
+  }
+
+  #mapScreen .map-head {
+    margin-bottom: 5px !important;
+    gap: 8px !important;
+  }
+
+  #mapScreen .map-title h1 {
+    font-size: 22px !important;
+    line-height: 1.05 !important;
+  }
+
+  #mapScreen .map-title p {
+    margin: 2px 0 !important;
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+  }
+
+  #mapScreen .iconbtn {
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+  }
+
+  #mapScreen .galaxy {
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    padding: 5px !important;
+  }
+
+  #mapScreen .episode-node {
+    min-height: 0 !important;
+    height: calc((100dvh - 104px) / 4) !important;
+    padding: 6px !important;
+    border-radius: 13px !important;
+    gap: 2px !important;
+  }
+
+  #mapScreen .episode-node .icon {
+    font-size: 28px !important;
+    line-height: 1 !important;
+  }
+
+  #mapScreen .episode-node b {
+    font-size: 11px !important;
+    line-height: 1.1 !important;
+  }
+
+  #mapScreen .episode-node small {
+    font-size: 9px !important;
+    line-height: 1.1 !important;
+  }
+
+  /* Progress cards remain available on larger screens but are hidden on iPad
+     so all 20 mission cards fit on one landscape screen. */
+  #mapScreen .progress-card {
+    display: none !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <section id="homeScreen" class="screen home-screen"><div class="home-wrap"><img class="home-image" src="world2_space_home_landscape.png" alt="World 2 Home"><div id="continueBanner" class="continue-banner hidden" style="display:none!important"></div><button id="startHotspot" class="hotspot start-hotspot"></button><button id="settingsHotspot" class="hotspot settings-hotspot"></button><button id="exitHotspot" class="hotspot exit-hotspot"></button></div></section>
