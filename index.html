@@ -725,26 +725,7 @@ html,body{width:100%;height:100%;overflow:hidden}
 
 </style>
 
-<style id="ipad-home-fit-v13">
-@media (orientation: landscape) and (max-height: 900px) {
-  #homeScreen, .home-screen, .homeScreen, #home {
-    overflow: hidden !important;
-  }
-  #homeScreen > *, .home-screen > *, .homeScreen > *, #home > * {
-    max-height: 100% !important;
-  }
-  .home-bg, .home-background, #homeBackground {
-    background-size: contain !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-  }
-}
-</style>
-
-
-<style id="ipad-full-fit-v14">
-/* iPad Safari landscape: fit Home and Galaxy Map inside the visible viewport.
-   Game screen layout is intentionally untouched. */
+<style id="ipad-home-map-fit-v18">
 @media (orientation: landscape) and (max-height: 900px) {
   #homeScreen {
     min-height: 100dvh !important;
@@ -756,10 +737,11 @@ html,body{width:100%;height:100%;overflow:hidden}
   }
 
   #homeScreen .home-wrap {
-    width: auto !important;
-    height: calc(100dvh - 10px) !important;
+    position: relative !important;
+    width: min(100vw, calc((100dvh - 6px) * 1.5)) !important;
+    height: auto !important;
     max-width: 100vw !important;
-    max-height: calc(100dvh - 10px) !important;
+    max-height: calc(100dvh - 6px) !important;
     aspect-ratio: 3 / 2 !important;
     margin: 0 auto !important;
   }
@@ -827,76 +809,8 @@ html,body{width:100%;height:100%;overflow:hidden}
     line-height: 1.1 !important;
   }
 
-  /* Progress cards remain available on larger screens but are hidden on iPad
-     so all 20 mission cards fit on one landscape screen. */
   #mapScreen .progress-card {
     display: none !important;
-  }
-}
-</style>
-
-
-<style id="ipad-home-final-v16">
-@media (orientation: landscape) and (max-height: 900px) {
-  #homeScreen {
-    min-height: 100dvh !important;
-    height: 100dvh !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    display: grid !important;
-    place-items: center !important;
-  }
-  #homeScreen .home-wrap {
-    position: relative !important;
-    width: auto !important;
-    height: calc(100dvh - 6px) !important;
-    max-width: 100vw !important;
-    max-height: calc(100dvh - 6px) !important;
-    aspect-ratio: 4 / 3 !important;
-    margin: 0 auto !important;
-  }
-  #homeScreen .home-image {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-  }
-  #homeScreen .hotspot {
-    z-index: 50 !important;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
-  }
-  #homeScreen .start-hotspot {
-    left: 22.5% !important;
-    top: 81.0% !important;
-    width: 17.0% !important;
-    height: 10.5% !important;
-  }
-  #homeScreen .settings-hotspot {
-    left: 41.2% !important;
-    top: 81.0% !important;
-    width: 17.5% !important;
-    height: 10.5% !important;
-  }
-  #homeScreen .exit-hotspot {
-    left: 59.7% !important;
-    top: 81.0% !important;
-    width: 15.7% !important;
-    height: 10.5% !important;
-  }
-}
-</style>
-
-
-<style id="ipad-start-robust-v17">
-@media (orientation: landscape) and (max-height: 900px) {
-  #homeScreen .start-hotspot {
-    left: 8% !important;
-    top: 74% !important;
-    width: 34% !important;
-    height: 24% !important;
-    z-index: 9999 !important;
-    pointer-events: auto !important;
-    touch-action: manipulation !important;
   }
 }
 </style>
@@ -1045,59 +959,6 @@ updateHome();renderMap();
     updateButton();
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
-})();
-</script>
-
-
-
-
-<script id="ipad-start-robust-v17">
-(function () {
-  function showMap(e) {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    var home = document.getElementById("homeScreen");
-    var map = document.getElementById("mapScreen");
-    var game = document.getElementById("gameScreen");
-    if (home) home.classList.add("hidden");
-    if (game) game.classList.add("hidden");
-    if (map) {
-      map.classList.remove("hidden");
-      map.scrollTop = 0;
-    }
-  }
-
-  function bind() {
-    var start = document.getElementById("startHotspot");
-    var home = document.getElementById("homeScreen");
-    if (start) {
-      start.setAttribute("aria-label", "START");
-      start.onclick = showMap;
-      start.onpointerdown = showMap;
-      start.ontouchstart = showMap;
-    }
-    // Safari fallback: tapping the lower-left START zone on the home screen
-    // opens the map even if the transparent hotspot misses the rendered image.
-    if (home) {
-      function fallback(e) {
-        var r = home.getBoundingClientRect();
-        var p = e.touches && e.touches[0] ? e.touches[0] : e;
-        var x = (p.clientX - r.left) / r.width;
-        var y = (p.clientY - r.top) / r.height;
-        if (x >= 0.05 && x <= 0.46 && y >= 0.68) showMap(e);
-      }
-      home.addEventListener("pointerdown", fallback, true);
-      home.addEventListener("touchstart", fallback, {capture:true, passive:false});
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bind, {once:true});
-  } else {
-    bind();
-  }
 })();
 </script>
 
