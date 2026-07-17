@@ -828,6 +828,29 @@ html,body{width:100%;height:100%;overflow:hidden}
 }
 </style>
 
+
+<style id="front-buttons-only-v20">
+@media (orientation: landscape) {
+  #homeScreen .home-wrap::after {
+    content: "";
+    position: absolute;
+    left: 19.5%;
+    top: 83.6%;
+    width: 52.8%;
+    height: 13.2%;
+    z-index: 50;
+    pointer-events: none;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 50% 120%, rgba(36,48,101,.96), rgba(7,16,50,.98) 58%, rgba(4,10,34,.99));
+    box-shadow: inset 0 0 20px rgba(25,80,180,.20);
+  }
+  #homeScreen .real-home-btn {
+    z-index: 100 !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <section id="homeScreen" class="screen home-screen"><div class="home-wrap"><img class="home-image" src="world2_space_home_landscape.png" alt="World 2 Home"><div id="continueBanner" class="continue-banner hidden" style="display:none!important"></div><button id="startHotspot" class="hotspot start-hotspot real-home-btn start-real" type="button"><span class="play-icon">▶</span><span>START</span></button><button id="settingsHotspot" class="hotspot settings-hotspot real-home-btn settings-real" type="button"><span class="gear-icon">⚙</span><span>SETTINGS</span></button><button id="exitHotspot" class="hotspot exit-hotspot real-home-btn exit-real" type="button"><span class="x-icon">✕</span><span>EXIT</span></button></div></section>
