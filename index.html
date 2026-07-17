@@ -886,6 +886,21 @@ html,body{width:100%;height:100%;overflow:hidden}
 }
 </style>
 
+
+<style id="ipad-start-robust-v17">
+@media (orientation: landscape) and (max-height: 900px) {
+  #homeScreen .start-hotspot {
+    left: 8% !important;
+    top: 74% !important;
+    width: 34% !important;
+    height: 24% !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <section id="homeScreen" class="screen home-screen"><div class="home-wrap"><img class="home-image" src="world2_space_home_landscape.png" alt="World 2 Home"><div id="continueBanner" class="continue-banner hidden" style="display:none!important"></div><button id="startHotspot" class="hotspot start-hotspot"></button><button id="settingsHotspot" class="hotspot settings-hotspot"></button><button id="exitHotspot" class="hotspot exit-hotspot"></button></div></section>
@@ -1035,34 +1050,51 @@ updateHome();renderMap();
 
 
 
-<script id="ipad-home-start-final-v16">
+
+<script id="ipad-start-robust-v17">
 (function () {
-  function activateStart(e) {
+  function showMap(e) {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
-    try {
-      if (typeof renderMap === "function") renderMap();
-    } catch (_) {}
-    ["homeScreen", "mapScreen", "gameScreen"].forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) el.classList.add("hidden");
-    });
+    var home = document.getElementById("homeScreen");
     var map = document.getElementById("mapScreen");
-    if (map) map.classList.remove("hidden");
+    var game = document.getElementById("gameScreen");
+    if (home) home.classList.add("hidden");
+    if (game) game.classList.add("hidden");
+    if (map) {
+      map.classList.remove("hidden");
+      map.scrollTop = 0;
+    }
   }
 
   function bind() {
     var start = document.getElementById("startHotspot");
-    if (!start) return;
-    start.onclick = activateStart;
-    start.ontouchend = activateStart;
-    start.onpointerup = activateStart;
+    var home = document.getElementById("homeScreen");
+    if (start) {
+      start.setAttribute("aria-label", "START");
+      start.onclick = showMap;
+      start.onpointerdown = showMap;
+      start.ontouchstart = showMap;
+    }
+    // Safari fallback: tapping the lower-left START zone on the home screen
+    // opens the map even if the transparent hotspot misses the rendered image.
+    if (home) {
+      function fallback(e) {
+        var r = home.getBoundingClientRect();
+        var p = e.touches && e.touches[0] ? e.touches[0] : e;
+        var x = (p.clientX - r.left) / r.width;
+        var y = (p.clientY - r.top) / r.height;
+        if (x >= 0.05 && x <= 0.46 && y >= 0.68) showMap(e);
+      }
+      home.addEventListener("pointerdown", fallback, true);
+      home.addEventListener("touchstart", fallback, {capture:true, passive:false});
+    }
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", bind, { once: true });
+    document.addEventListener("DOMContentLoaded", bind, {once:true});
   } else {
     bind();
   }
