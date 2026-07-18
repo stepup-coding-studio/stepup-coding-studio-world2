@@ -1000,21 +1000,82 @@ function exitWorld2(event){
 </script>
 
 
-<script id="galaxy-map-ready-v24">
+
+<script id="episode-map-fallback-v25">
 (function(){
-  function prepareGalaxyMap(){
-    try{
-      if(typeof renderMap === 'function'){
-        renderMap();
-      }
-    }catch(err){
-      console.error('Galaxy Map prepare error:', err);
+  function getEpisodes(){
+    try {
+      if (Array.isArray(window.EPISODES)) return window.EPISODES;
+      if (typeof EPISODES !== 'undefined' && Array.isArray(EPISODES)) return EPISODES;
+    } catch(e) {}
+    return [];
+  }
+
+  function openEpisodeSafe(index){
+    try {
+      if (typeof loadEpisode === 'function') return loadEpisode(index);
+      if (typeof startEpisode === 'function') return startEpisode(index);
+      if (typeof openEpisode === 'function') return openEpisode(index);
+      if (typeof selectEpisode === 'function') return selectEpisode(index);
+    } catch(err) {
+      console.error('Episode open error', err);
     }
   }
-  if(document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', prepareGalaxyMap, {once:true});
-  }else{
-    prepareGalaxyMap();
+
+  window.renderMap = function(){
+    var grid = document.getElementById('galaxy');
+    if (!grid) {
+      var map = document.getElementById('mapScreen');
+      if (!map) return;
+      grid = document.createElement('div');
+      grid.id = 'galaxy';
+      grid.className = 'galaxy';
+      map.appendChild(grid);
+    }
+
+    var episodes = getEpisodes();
+    grid.innerHTML = '';
+
+    if (!episodes.length) {
+      grid.innerHTML = '<div style="padding:20px;color:white;font-weight:800">ไม่พบข้อมูล Episode</div>';
+      return;
+    }
+
+    episodes.forEach(function(ep, i){
+      var title = ep.title || ep.name || ep.label || ('EPISODE ' + (i + 1));
+      var subtitle = ep.subtitle || ep.mission || ep.code || ep.id || '';
+      var icon = ep.icon || ep.emoji || ep.symbol || '🚀';
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'episode-node';
+      btn.innerHTML =
+        '<span class="icon">' + icon + '</span>' +
+        '<b>EPISODE ' + (i + 1) + '</b>' +
+        '<small>' + title + (subtitle ? '<br>' + subtitle : '') + '</small>';
+
+      btn.addEventListener('click', function(e){
+        e.preventDefault();
+        openEpisodeSafe(i + 1);
+      });
+
+      btn.addEventListener('touchend', function(e){
+        e.preventDefault();
+        openEpisodeSafe(i + 1);
+      }, {passive:false});
+
+      grid.appendChild(btn);
+    });
+  };
+
+  function prepare(){
+    try { window.renderMap(); } catch(err) { console.error('renderMap failed', err); }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', prepare, {once:true});
+  } else {
+    prepare();
   }
 })();
 </script>
