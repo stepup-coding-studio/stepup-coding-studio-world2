@@ -725,83 +725,76 @@ html,body{width:100%;height:100%;overflow:hidden}
 
 </style>
 
-<style id="world1-home-exact-v23">
-#homeScreen.approved-home-screen{
-  margin:0!important;
-  padding:0!important;
-  width:100vw!important;
-  height:100dvh!important;
-  min-height:100dvh!important;
-  overflow:hidden!important;
-  background:#020817!important;
-  touch-action:manipulation!important;
+<style id="world2-v26-home-only">
+#homeScreen.approved-home-screen {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  overflow: hidden !important;
+  background: #020817 !important;
+  touch-action: manipulation !important;
 }
-#homeScreen .approved-home{
-  position:relative!important;
-  width:100vw!important;
-  height:100dvh!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  background:#020817!important;
-  overflow:hidden!important;
-}
-#homeScreen .approved-home-image{
-  display:block!important;
-  width:100%!important;
-  height:100%!important;
-  object-fit:contain!important;
-  object-position:center!important;
-  user-select:none!important;
-  -webkit-user-select:none!important;
-  -webkit-touch-callout:none!important;
-  pointer-events:none!important;
-}
-#homeScreen .home-hotspot{
-  position:absolute!important;
-  z-index:20!important;
-  border:0!important;
-  background:transparent!important;
-  border-radius:18px!important;
-  padding:0!important;
-  box-shadow:none!important;
-  -webkit-tap-highlight-color:transparent!important;
-  touch-action:manipulation!important;
-  pointer-events:auto!important;
-}
-/* Exact button positions for the 4:3 Home artwork */
-#homeScreen .start-hotspot{left:19.0%!important;top:79.0%!important;width:20.0%!important;height:11.5%!important}
-#homeScreen .settings-hotspot{left:40.0%!important;top:79.0%!important;width:20.5%!important;height:11.5%!important}
-#homeScreen .exit-hotspot{left:61.0%!important;top:79.0%!important;width:19.0%!important;height:11.5%!important}
 
-/* Keep Galaxy Map fitted on iPad landscape */
-@media (orientation:landscape) and (max-height:900px){
-  #mapScreen{
-    min-height:100dvh!important;
-    height:100dvh!important;
-    padding:8px 10px!important;
-    overflow:hidden!important;
-  }
-  #mapScreen .map-head{margin-bottom:5px!important;gap:8px!important}
-  #mapScreen .map-title h1{font-size:22px!important;line-height:1.05!important}
-  #mapScreen .map-title p{margin:2px 0!important;font-size:11px!important;line-height:1.2!important}
-  #mapScreen .iconbtn{padding:7px 10px!important;font-size:12px!important}
-  #mapScreen .galaxy{
-    grid-template-columns:repeat(5,minmax(0,1fr))!important;
-    gap:7px!important;
-    padding:5px!important;
-  }
-  #mapScreen .episode-node{
-    min-height:0!important;
-    height:calc((100dvh - 104px)/4)!important;
-    padding:6px!important;
-    border-radius:13px!important;
-    gap:2px!important;
-  }
-  #mapScreen .episode-node .icon{font-size:28px!important;line-height:1!important}
-  #mapScreen .episode-node b{font-size:11px!important;line-height:1.1!important}
-  #mapScreen .episode-node small{font-size:9px!important;line-height:1.1!important}
-  #mapScreen .progress-card{display:none!important}
+#homeScreen .approved-home {
+  position: relative !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+}
+
+#homeScreen .approved-home-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  pointer-events: none !important;
+}
+
+#homeScreen .home-hotspot {
+  position: absolute !important;
+  z-index: 20 !important;
+  border: 0 !important;
+  background: transparent !important;
+  border-radius: 18px !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  touch-action: manipulation !important;
+  pointer-events: auto !important;
+}
+
+/* Match the three buttons already printed in the original World 2 Home artwork. */
+#homeScreen .start-hotspot {
+  left: 29.8% !important;
+  top: 82.0% !important;
+  width: 15.2% !important;
+  height: 9.5% !important;
+}
+#homeScreen .settings-hotspot {
+  left: 45.8% !important;
+  top: 82.0% !important;
+  width: 17.2% !important;
+  height: 9.5% !important;
+}
+#homeScreen .exit-hotspot {
+  left: 64.0% !important;
+  top: 82.0% !important;
+  width: 13.8% !important;
+  height: 9.5% !important;
+}
+
+#homeScreen .home-hotspot:focus-visible {
+  outline: 4px solid rgba(255,255,255,.95) !important;
+  outline-offset: 3px !important;
 }
 </style>
 
@@ -811,15 +804,24 @@ html,body{width:100%;height:100%;overflow:hidden}
 <section id="homeScreen" class="screen home-screen approved-home-screen">
   <main class="approved-home">
     <img src="world2_space_home_landscape.png"
-         alt="STEP UP CODING STUDIO — World 2 Robot and Space"
-         class="approved-home-image" draggable="false">
+         alt="STEP UP CODING STUDIO — World 2 Robot & Space"
+         class="approved-home-image"
+         draggable="false">
 
-    <button class="home-hotspot start-hotspot" aria-label="เริ่มเกม"
-            onclick="openWorld2Map(event)"></button>
-    <button class="home-hotspot settings-hotspot" aria-label="ตั้งค่า"
-            onclick="openWorld2Settings(event)"></button>
-    <button class="home-hotspot exit-hotspot" aria-label="ออกจากเกม"
-            onclick="exitWorld2(event)"></button>
+    <button id="startHotspot"
+            class="home-hotspot start-hotspot"
+            type="button"
+            aria-label="เริ่มเกม"></button>
+
+    <button id="settingsHotspot"
+            class="home-hotspot settings-hotspot"
+            type="button"
+            aria-label="ตั้งค่า"></button>
+
+    <button id="exitHotspot"
+            class="home-hotspot exit-hotspot"
+            type="button"
+            aria-label="ออกจากเกม"></button>
   </main>
 </section>
 <section id="mapScreen" class="screen map-screen hidden"><div class="map-head"><div class="map-title"><h1>🌌 GALAXY MAP</h1><p>เล่นตามลำดับทั้ง 20 Episodes เพื่อผ่าน World 2 • ✅ ตรวจเส้นทางครบทุกด่านแล้ว</p></div><div class="map-actions"><button id="resetProgressBtn" class="iconbtn">เริ่มใหม่</button><button id="mapHomeBtn" class="iconbtn">HOME</button></div></div><div id="galaxy" class="galaxy"></div><div class="progress-card card"><div style="display:flex;justify-content:space-between;margin-bottom:8px"><b>World 2 Progress</b><span id="progressText">0/20</span></div><div class="progress-track"><div id="progressFill" class="progress-fill"></div></div></div>
@@ -967,115 +969,41 @@ updateHome();renderMap();
 </script>
 
 
-<script id="world1-home-exact-actions-v23">
-function openWorld2Map(event){
-  if(event){event.preventDefault();event.stopPropagation();}
-  /* Build all 20 Episode buttons before opening the Galaxy Map. */
-  try{
-    if(typeof renderMap === 'function'){
-      renderMap();
-    }
-  }catch(err){
-    console.error('Galaxy Map render error:', err);
-  }
-  var home=document.getElementById('homeScreen');
-  var map=document.getElementById('mapScreen');
-  var game=document.getElementById('gameScreen');
-  if(home) home.classList.add('hidden');
-  if(game) game.classList.add('hidden');
-  if(map){
-    map.classList.remove('hidden');
-    map.scrollTop=0;
-  }
-}
-function openWorld2Settings(event){
-  if(event){event.preventDefault();event.stopPropagation();}
-  var panel=document.getElementById('settingsPanel');
-  if(panel) panel.classList.remove('hidden');
-}
-function exitWorld2(event){
-  if(event){event.preventDefault();event.stopPropagation();}
-  try{window.close();}catch(_){}
-}
-</script>
+<script id="world2-v26-home-bindings">
+(function () {
+  function bindHomeButtons() {
+    var start = document.getElementById('startHotspot');
+    var settings = document.getElementById('settingsHotspot');
+    var exit = document.getElementById('exitHotspot');
 
-
-
-<script id="episode-map-fallback-v25">
-(function(){
-  function getEpisodes(){
-    try {
-      if (Array.isArray(window.EPISODES)) return window.EPISODES;
-      if (typeof EPISODES !== 'undefined' && Array.isArray(EPISODES)) return EPISODES;
-    } catch(e) {}
-    return [];
-  }
-
-  function openEpisodeSafe(index){
-    try {
-      if (typeof loadEpisode === 'function') return loadEpisode(index);
-      if (typeof startEpisode === 'function') return startEpisode(index);
-      if (typeof openEpisode === 'function') return openEpisode(index);
-      if (typeof selectEpisode === 'function') return selectEpisode(index);
-    } catch(err) {
-      console.error('Episode open error', err);
-    }
-  }
-
-  window.renderMap = function(){
-    var grid = document.getElementById('galaxy');
-    if (!grid) {
-      var map = document.getElementById('mapScreen');
-      if (!map) return;
-      grid = document.createElement('div');
-      grid.id = 'galaxy';
-      grid.className = 'galaxy';
-      map.appendChild(grid);
-    }
-
-    var episodes = getEpisodes();
-    grid.innerHTML = '';
-
-    if (!episodes.length) {
-      grid.innerHTML = '<div style="padding:20px;color:white;font-weight:800">ไม่พบข้อมูล Episode</div>';
-      return;
-    }
-
-    episodes.forEach(function(ep, i){
-      var title = ep.title || ep.name || ep.label || ('EPISODE ' + (i + 1));
-      var subtitle = ep.subtitle || ep.mission || ep.code || ep.id || '';
-      var icon = ep.icon || ep.emoji || ep.symbol || '🚀';
-
-      var btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'episode-node';
-      btn.innerHTML =
-        '<span class="icon">' + icon + '</span>' +
-        '<b>EPISODE ' + (i + 1) + '</b>' +
-        '<small>' + title + (subtitle ? '<br>' + subtitle : '') + '</small>';
-
-      btn.addEventListener('click', function(e){
-        e.preventDefault();
-        openEpisodeSafe(i + 1);
+    if (start) {
+      start.addEventListener('click', function (event) {
+        event.preventDefault();
+        if (typeof renderMap === 'function') renderMap();
+        if (typeof show === 'function') show('mapScreen');
       });
+    }
 
-      btn.addEventListener('touchend', function(e){
-        e.preventDefault();
-        openEpisodeSafe(i + 1);
-      }, {passive:false});
+    if (settings) {
+      settings.addEventListener('click', function (event) {
+        event.preventDefault();
+        var panel = document.getElementById('settingsPanel');
+        if (panel) panel.classList.remove('hidden');
+      });
+    }
 
-      grid.appendChild(btn);
-    });
-  };
-
-  function prepare(){
-    try { window.renderMap(); } catch(err) { console.error('renderMap failed', err); }
+    if (exit) {
+      exit.addEventListener('click', function (event) {
+        event.preventDefault();
+        try { window.close(); } catch (_) {}
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', prepare, {once:true});
+    document.addEventListener('DOMContentLoaded', bindHomeButtons, { once: true });
   } else {
-    prepare();
+    bindHomeButtons();
   }
 })();
 </script>
